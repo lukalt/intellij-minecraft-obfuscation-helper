@@ -1,0 +1,41 @@
+<idea-plugin>
+    <id>lt.lukasa.intellij-proguard-viewer</id>
+    <name>Proguard Viewer</name>
+    <vendor email="me@lukasa.lt" url="https://lukasa.lt">Lukas Alt</vendor>
+
+    <description>Allow attaching Proguard Mappings to deobfuscate Code in autocompletion</description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <lang.documentationProvider
+                language="JAVA"
+                implementationClass="lt.lukasa.proguardviewer.extensions.ObfuscationDocumentationProvider"
+                order="first"/>
+        <codeInsight.inlayProvider
+                language="JAVA"
+                implementationClass="lt.lukasa.proguardviewer.extensions.ObfuscationInlayParameterHintsProvider"/>
+        <projectConfigurable
+                parentId="tools"
+                instance="lt.lukasa.proguardviewer.configurable.ProjectSettingsConfigurable"
+                id="lt.lukasa.proguardviewer.ProjectSettingsConfigurable"
+                displayName="Minecraft Obfuscations"
+                nonDefaultProject="true"/>
+        <applicationService
+                serviceInterface="lt.lukasa.proguardviewer.service.IProfileManager"
+                serviceImplementation="lt.lukasa.proguardviewer.service.ProfileService"/>
+        <projectService
+                serviceImplementation="lt.lukasa.proguardviewer.service.ObfuscationMappingService"
+                serviceInterface="lt.lukasa.proguardviewer.service.IObfuscationMappingService"/>
+        <projectService
+                serviceImplementation="lt.lukasa.proguardviewer.service.ProjectSettingsStateService"
+                serviceInterface="lt.lukasa.proguardviewer.service.IProjectSettingsStateService"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
